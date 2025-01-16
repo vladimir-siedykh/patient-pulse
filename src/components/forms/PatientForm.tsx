@@ -3,9 +3,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import CustomFormField from '../CustomFormField';
+import SubmitDutton from '../SubmitDutton';
+import { useState } from 'react';
+import { PatientFormValidation } from '@/lib/validation';
+import { useRouter } from 'next/navigation';
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -17,30 +20,37 @@ export enum FormFieldType {
   SKELETON = 'skeleton',
 }
 
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Name must be at least 2 characters.',
-  }),
-  email: z.string().email({
-    message: 'Please enter a valid email.',
-  }),
-});
-
 const PatientForm = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof PatientFormValidation>>({
+    resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       name: '',
       email: '',
+      phone: '',
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit({name, email, phone}: z.infer<typeof PatientFormValidation>) {
+    setIsLoading(true);
+    try {
+      // const userDate = {
+      //   name,
+      //   email,
+      //   phone,
+      // };
+
+      // const user = await createUser(userDate);
+      // if (user) {
+      //   router.push(`/patient/${user.id}/register`);
+      // }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -70,7 +80,15 @@ const PatientForm = () => {
           iconAlt='email icon'
           autoComplete='email'
         />
-        <Button type='submit'>Submit</Button>
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.PHONE_INPUT}
+          name='phone'
+          label='Phone number'
+          placeholder='+123 456 7890'
+          autoComplete='phone'
+        />
+        <SubmitDutton isLoading={isLoading}>Get started</SubmitDutton>
       </form>
     </Form>
   );
