@@ -19,7 +19,10 @@ export enum FormFieldType {
 
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: 'Name must be at least 2 characters.',
+  }),
+  email: z.string().email({
+    message: 'Please enter a valid email.',
   }),
 });
 
@@ -29,6 +32,7 @@ const PatientForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      email: '',
     },
   });
 
@@ -51,10 +55,20 @@ const PatientForm = () => {
           fieldType={FormFieldType.INPUT}
           name='name'
           label='Full name'
-          placeholder='Enter your full name'
+          placeholder='Alexander Smith'
           iconSrc='/assets/icons/user.svg'
           iconAlt='user icon'
           autoComplete='name'
+        />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name='email'
+          label='Email'
+          placeholder='alexander@smith.com'
+          iconSrc='/assets/icons/email.svg'
+          iconAlt='email icon'
+          autoComplete='email'
         />
         <Button type='submit'>Submit</Button>
       </form>
