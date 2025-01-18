@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
 import CustomFormField from '../CustomFormField';
-import SubmitDutton from '../SubmitDutton';
 import { useState } from 'react';
-import { PatientFormValidation } from '@/lib/validation';
+import { UserFormValidation } from '@/lib/validation';
 import { useRouter } from 'next/navigation';
+import { createUser } from '@/lib/actions/patient.actions';
+import SubmitButton from '../SubmitButton';
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -25,8 +26,8 @@ const PatientForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof PatientFormValidation>>({
-    resolver: zodResolver(PatientFormValidation),
+  const form = useForm<z.infer<typeof UserFormValidation>>({
+    resolver: zodResolver(UserFormValidation),
     defaultValues: {
       name: '',
       email: '',
@@ -35,60 +36,65 @@ const PatientForm = () => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof PatientFormValidation>) {
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
-    try {
-      // const userDate = {
-      //   name,
-      //   email,
-      //   phone,
-      // };
 
-      // const user = await createUser(userDate);
-      // if (user) {
-      //   router.push(`/patient/${user.id}/register`);
-      // }
+    try {
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
+
+      const newUser = await createUser(user);
+
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+
+    setIsLoading(false);
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex-1 space-y-6'>
         <section className='mb-12 space-y-4'>
           <h1 className='header'>Hi there 👋</h1>
-          <p className='text-dark-700'>Schedule your first appointment with us</p>
+          <p className='text-dark-700'>Get started with appointments.</p>
         </section>
+
         <CustomFormField
-          control={form.control}
           fieldType={FormFieldType.INPUT}
+          control={form.control}
           name='name'
           label='Full name'
-          placeholder='Alexander Smith'
+          placeholder='John Doe'
           iconSrc='/assets/icons/user.svg'
-          iconAlt='user icon'
-          autoComplete='name'
+          iconAlt='user'
         />
+
         <CustomFormField
-          control={form.control}
           fieldType={FormFieldType.INPUT}
+          control={form.control}
           name='email'
           label='Email'
-          placeholder='alexander@smith.com'
+          placeholder='johndoe@gmail.com'
           iconSrc='/assets/icons/email.svg'
-          iconAlt='email icon'
-          autoComplete='email'
+          iconAlt='email'
         />
+
         <CustomFormField
-          control={form.control}
           fieldType={FormFieldType.PHONE_INPUT}
+          control={form.control}
           name='phone'
           label='Phone number'
-          placeholder='+123 456 7890'
-          autoComplete='phone'
+          placeholder='(555) 123-4567'
         />
-        <SubmitDutton isLoading={isLoading}>Get started</SubmitDutton>
+
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
   );
