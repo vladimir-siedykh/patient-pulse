@@ -5,10 +5,8 @@ import RegisterForm from '@/components/forms/RegisterForm';
 import { getUser } from '@/lib/actions/patient.actions';
 
 const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
-  // First await the params to get userId
+  
   const { userId } = await params;
-
-  // Then use it to fetch the user
   const user = await getUser(userId);
 
   return (

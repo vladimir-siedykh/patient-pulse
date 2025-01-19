@@ -16,7 +16,7 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import type { E164Number } from 'libphonenumber-js';
 
-import DatePicker from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select';
@@ -88,18 +88,40 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
         </FormControl>
       );
 
+    // case FormFieldType.DATE_PICKER:
+    //   return (
+    //     <div className='flex rounded-md border border-dark-500 bg-dark-400'>
+    //       <Image src={iconSrc!} alt={iconAlt || 'icon'} width={24} height={24} className='ml-2' />
+    //       <FormControl>
+    //         <DatePicker
+    //           selected={field.value}
+    //           onChange={(date) => field.onChange(date)}
+    //           className='shad-input border-0'
+    //           dateFormat={dateFormat ?? 'DD/MM/YYYY HH:mm'}
+    //           showDateSelect={showTimeSelect ?? false}
+    //           timeInputLabel='Time:'
+    //           wrapperClassName='date-picker'
+    //         />
+    //       </FormControl>
+    //     </div>
+    //   );
     case FormFieldType.DATE_PICKER:
       return (
         <div className='flex rounded-md border border-dark-500 bg-dark-400'>
-          <Image src={iconSrc!} alt={iconAlt || 'icon'} width={24} height={24} className='ml-2' />
+          <Image
+            src='/assets/icons/calendar.svg'
+            height={24}
+            width={24}
+            alt='user'
+            className='ml-2'
+          />
           <FormControl>
-            <DatePicker
+            <ReactDatePicker
+              showTimeSelect={props.showTimeSelect ?? false}
               selected={field.value}
-              onChange={(date) => field.onChange(date)}
-              className='shad-input border-0'
-              dateFormat={dateFormat ?? 'DD/MM/YYYY HH:mm'}
-              showDateSelect={showTimeSelect ?? false}
+              onChange={(date: Date) => field.onChange(date)}
               timeInputLabel='Time:'
+              dateFormat={props.dateFormat ?? 'MM/dd/yyyy'}
               wrapperClassName='date-picker'
             />
           </FormControl>

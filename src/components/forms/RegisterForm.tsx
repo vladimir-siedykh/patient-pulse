@@ -8,7 +8,7 @@ import CustomFormField from '../CustomFormField';
 import { useState } from 'react';
 import { PatientFormValidation } from '@/lib/validation';
 import { useRouter } from 'next/navigation';
-import { createUser, registerPatient } from '@/lib/actions/patient.actions';
+import { registerPatient } from '@/lib/actions/patient.actions';
 import SubmitButton from '../SubmitButton';
 import { FormFieldType } from './PatientForm';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
@@ -130,9 +130,10 @@ const RegisterForm = ({ user }: { user: User }) => {
               control={form.control}
               name='birthDate'
               label='Date of birth'
-              placeholder='DD/MM/YYYY'
+              placeholder='MM/DD/YYYY'
               iconSrc='/assets/icons/calendar.svg'
               iconAlt='calendar'
+              dateFormat='mm/dd/yyyy  -  h:mm aa'
             />
             <CustomFormField
               fieldType={FormFieldType.SKELETON}

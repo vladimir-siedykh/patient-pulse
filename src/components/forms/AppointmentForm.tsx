@@ -167,7 +167,7 @@ export const AppointmentForm = ({
               name='schedule'
               label='Expected appointment date'
               showTimeSelect
-              dateFormat='MM/dd/yyyy  -  h:mm aa'
+              dateFormat='mm/dd/yyyy  -  h:mm aa'
               iconSrc='/assets/icons/calendar.svg'
               iconAlt='calendar'
             />
