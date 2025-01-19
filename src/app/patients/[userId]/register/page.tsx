@@ -5,7 +5,6 @@ import RegisterForm from '@/components/forms/RegisterForm';
 import { getUser } from '@/lib/actions/patient.actions';
 
 const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
-  
   const { userId } = await params;
   const user = await getUser(userId);
 
@@ -20,13 +19,11 @@ const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }
 
           <RegisterForm user={user} />
 
-          <p className='copyright py-12'>
-            © {new Date().getFullYear()} Patient Pulse
-          </p>
+          <p className='copyright py-12'>© {new Date().getFullYear()} Patient Pulse</p>
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='h-full max-w-1/4 object-cover' />
+      <Image src={mainImg} alt='Patient Pulse' className='max-w-1/4 h-full object-cover' />
     </div>
   );
 };

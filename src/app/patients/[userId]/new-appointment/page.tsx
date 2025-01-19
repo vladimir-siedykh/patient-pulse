@@ -1,6 +1,6 @@
-import { AppointmentForm } from "@/components/forms/AppointmentForm";
-import { getPatient } from "@/lib/actions/patient.actions";
-import Image from "next/image";
+import { AppointmentForm } from '@/components/forms/AppointmentForm';
+import { getPatient } from '@/lib/actions/patient.actions';
+import Image from 'next/image';
 import mainImg from '/public/assets/images/appointment-img.png';
 import logo from '/public/assets/icons/logo.svg';
 
@@ -19,9 +19,7 @@ const NewAppointmentPage = async ({ params }: { params: Promise<{ userId: string
 
           <AppointmentForm patientId={patient?.$id} userId={userId} type='create' />
 
-          <p className='copyright py-12'>
-            © {new Date().getFullYear()} Patient Pulse
-          </p>
+          <p className='copyright py-12'>© {new Date().getFullYear()} Patient Pulse</p>
         </div>
       </section>
 
