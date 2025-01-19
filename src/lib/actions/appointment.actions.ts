@@ -139,3 +139,15 @@ export const getAppointment = async (appointmentId: string) => {
     console.error('An error occurred while retrieving the existing patient:', error);
   }
 };
+
+export const getPatientAppointments = async (userId: string) => {
+  try {
+    const appointments = await databases.listDocuments(DATABASE_ID!, APPOINTMENT_COLLECTION_ID!, [
+      Query.equal('userId', userId),
+    ]);
+
+    return parseStringify(appointments.documents);
+  } catch (error) {
+    console.error('Error fetching patient appointments:', error);
+  }
+};
