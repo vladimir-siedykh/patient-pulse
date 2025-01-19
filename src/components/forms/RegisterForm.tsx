@@ -37,7 +37,7 @@ const RegisterForm = ({ user }: { user: User }) => {
     setIsLoading(true);
 
     let formData;
-    
+
     if (values.identificationDocument && values.identificationDocument?.length > 0) {
       const blobFile = new Blob([values.identificationDocument[0]], {
         type: values.identificationDocument[0].type,
@@ -133,7 +133,7 @@ const RegisterForm = ({ user }: { user: User }) => {
               placeholder='MM/DD/YYYY'
               iconSrc='/assets/icons/calendar.svg'
               iconAlt='calendar'
-              dateFormat='mm/dd/yyyy  -  h:mm aa'
+              dateFormat='mm/dd/yyyy'
             />
             <CustomFormField
               fieldType={FormFieldType.SKELETON}

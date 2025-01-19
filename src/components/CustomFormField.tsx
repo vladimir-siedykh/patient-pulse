@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Control } from 'react-hook-form';
 import { FormFieldType } from './forms/PatientForm';
@@ -17,8 +11,8 @@ import PhoneInput from 'react-phone-number-input';
 import type { E164Number } from 'libphonenumber-js';
 
 import ReactDatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
+
 import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
 import { Checkbox } from './ui/checkbox';
@@ -119,7 +113,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             <ReactDatePicker
               showTimeSelect={props.showTimeSelect ?? false}
               selected={field.value}
-              onChange={(date: Date) => field.onChange(date)}
+              onChange={(date: Date | null) => field.onChange(date)}
               timeInputLabel='Time:'
               dateFormat={props.dateFormat ?? 'MM/dd/yyyy'}
               wrapperClassName='date-picker'

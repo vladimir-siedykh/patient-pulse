@@ -15,7 +15,6 @@ const RequestSuccessPage = async ({
   searchParams: Promise<{ appointmentId?: string }>;
   params: Promise<{ userId: string }>;
 }) => {
-
   const { userId } = await params;
   const { appointmentId } = await searchParams;
 
