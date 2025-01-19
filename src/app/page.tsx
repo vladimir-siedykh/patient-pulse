@@ -10,7 +10,7 @@ export default function Home() {
       {/* TODO: OTP verification */}
       <section className='remove-scrollbar container my-auto'>
         <div className='sub-container max-w-[496px]'>
-          <div className='mb-12 flex items-center gap-2 w-[1000px]'>
+          <div className='mb-12 flex items-center gap-4'>
             <Image src={logo} alt='Patient Pulse' width={48} height={48} />
             <span className='text-2xl font-bold'>Patient Pulse</span>
           </div>
@@ -18,7 +18,9 @@ export default function Home() {
           <PatientForm />
 
           <div className='text-14-regular mt-20 flex justify-between'>
-            <p className='justify-items-end text-dark-600 xl:text-left'>© {new Date().getFullYear()} Patient Pulse</p>
+            <p className='justify-items-end text-dark-600 xl:text-left'>
+              © {new Date().getFullYear()} Patient Pulse
+            </p>
             <Link href='/?admin-true' className='text-green-500'>
               Admin
             </Link>
@@ -26,7 +28,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='object-cover w-1/2 h-full' />
+      <Image src={mainImg} alt='Patient Pulse' className='h-full w-1/2 object-cover' />
     </div>
   );
 }
