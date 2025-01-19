@@ -33,7 +33,7 @@ const RequestSuccessPage = async ({
         </Link>
 
         <section className='flex flex-col items-center'>
-          <h2 className='header mt-10 mb-6 max-w-[600px] text-center'>
+          <h2 className='header mb-6 mt-10 max-w-[600px] text-center'>
             Your <span className='text-green-500'>appointment request</span> has been successfully
             submitted!
           </h2>
@@ -58,9 +58,17 @@ const RequestSuccessPage = async ({
           </div>
         </section>
 
-        <Button variant='outline' className='shad-primary-btn' asChild>
+        {/* <Button variant='outline' className='shad-primary-btn' asChild>
           <Link href={`/patients/${userId}/new-appointment`}>New Appointment</Link>
-        </Button>
+        </Button> */}
+        <div className='flex gap-4'>
+          <Button variant='outline' className='shad-primary-btn' asChild>
+            <Link href={`/patients/${userId}/new-appointment`}>New appointment</Link>
+          </Button>
+          <Button className='shad-primary-btn' asChild>
+            <Link href={`/patients/${userId}/dashboard`}>View appointments</Link>
+          </Button>
+        </div>
 
         <p className='copyright'>© {new Date().getFullYear()} Patient Pulse</p>
       </div>
