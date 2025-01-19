@@ -1,15 +1,12 @@
-import Image from 'next/image';
+import { AppointmentForm } from "@/components/forms/AppointmentForm";
+import { getPatient } from "@/lib/actions/patient.actions";
+import Image from "next/image";
+import mainImg from '/public/assets/images/appointment-img.png';
 import logo from '/public/assets/icons/logo.svg';
-import mainImg from '/public/assets/images/register-img.png';
-import RegisterForm from '@/components/forms/RegisterForm';
-import { getUser } from '@/lib/actions/patient.actions';
 
-const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
-  // First await the params to get userId
+const NewAppointmentPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = await params;
-
-  // Then use it to fetch the user
-  const user = await getUser(userId);
+  const patient = await getPatient(userId);
 
   return (
     <div className='flex h-screen max-h-screen'>
@@ -20,7 +17,7 @@ const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }
             <span className='text-2xl font-bold'>Patient Pulse</span>
           </div>
 
-          <RegisterForm user={user} />
+          <AppointmentForm patientId={patient?.$id} userId={userId} type='create' />
 
           <p className='copyright py-12'>
             © {new Date().getFullYear()} Patient Pulse
@@ -28,9 +25,9 @@ const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='h-full max-w-1/4 object-cover' />
+      <Image src={mainImg} alt='Patient Pulse' className='h-full w-1/4 object-cover' />
     </div>
   );
 };
 
-export default RegistrationPage;
+export default NewAppointmentPage;
