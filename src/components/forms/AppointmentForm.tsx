@@ -84,8 +84,8 @@ export const AppointmentForm = ({
             `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
         }
-      } 
-      
+      }
+
       // else {
       //   const appointmentToUpdate = {
       //     userId,
