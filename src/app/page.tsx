@@ -4,7 +4,10 @@ import mainImg from '/public/assets/images/onboarding-img.png';
 import PatientForm from '@/components/forms/PatientForm';
 import Link from 'next/link';
 
-export default function Home() {
+export default function Home({ searchParams}: SearchParamProps) {
+  const isAdmin = searchParams.admin === 'true';
+  console.log(isAdmin);
+  
   return (
     <div className='flex h-screen max-h-screen'>
       {/* TODO: OTP verification */}
