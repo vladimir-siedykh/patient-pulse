@@ -130,10 +130,10 @@ const RegisterForm = ({ user }: { user: User }) => {
               control={form.control}
               name='birthDate'
               label='Date of birth'
-              placeholder='MM/DD/YYYY'
+              placeholder='DD/MM/YYYY'
               iconSrc='/assets/icons/calendar.svg'
               iconAlt='calendar'
-              dateFormat='mm/dd/yyyy'
+              dateFormat='dd/MM/yyyy'
             />
             <CustomFormField
               fieldType={FormFieldType.SKELETON}
