@@ -3,13 +3,16 @@ import logo from '/public/assets/icons/logo.svg';
 import mainImg from '/public/assets/images/onboarding-img.png';
 import PatientForm from '@/components/forms/PatientForm';
 import Link from 'next/link';
+import PasskeyModal from '@/components/PasskeyModal';
 
 export default async function Home({ searchParams }: SearchParamProps) {
-  const isAdmin = searchParams.admin === 'true';
+  const params = await searchParams;
+  const isAdmin = params.admin === 'true';
 
   return (
     <div className='flex h-screen max-h-screen'>
-      {/* TODO: OTP verification */}
+      {isAdmin && <PasskeyModal />}
+
       <section className='remove-scrollbar container my-auto'>
         <div className='sub-container max-w-[496px]'>
           <div className='mb-12 flex items-center gap-4'>
@@ -23,7 +26,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
             <p className='justify-items-end text-dark-600 xl:text-left'>
               © {new Date().getFullYear()} Patient Pulse
             </p>
-            <Link href='/?admin-true' className='text-green-500'>
+            <Link href='/?admin=true' className='text-green-500'>
               Admin
             </Link>
           </div>

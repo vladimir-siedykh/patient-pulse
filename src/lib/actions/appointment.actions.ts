@@ -28,9 +28,11 @@ export const createAppointment = async (appointment: CreateAppointmentParams) =>
 //  GET RECENT APPOINTMENTS
 export const getRecentAppointmentList = async () => {
   try {
-    const appointments = await databases.listDocuments(DATABASE_ID!, APPOINTMENT_COLLECTION_ID!, [
-      Query.orderDesc('$createdAt'),
-    ]);
+    const appointments = await databases.listDocuments(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      [Query.orderDesc('$createdAt')]
+    );
 
     // const scheduledAppointments = (
     //   appointments.documents as Appointment[]
@@ -40,22 +42,22 @@ export const getRecentAppointmentList = async () => {
     //   appointments.documents as Appointment[]
     // ).filter((appointment) => appointment.status === "pending");
 
-    // const cancelledAppointments = (
+    // const canceledAppointments = (
     //   appointments.documents as Appointment[]
-    // ).filter((appointment) => appointment.status === "cancelled");
+    // ).filter((appointment) => appointment.status === "canceled");
 
     // const data = {
     //   totalCount: appointments.total,
     //   scheduledCount: scheduledAppointments.length,
     //   pendingCount: pendingAppointments.length,
-    //   cancelledCount: cancelledAppointments.length,
+    //   canceledCount: canceledAppointments.length,
     //   documents: appointments.documents,
     // };
 
     const initialCounts = {
       scheduledCount: 0,
       pendingCount: 0,
-      cancelledCount: 0,
+      canceledCount: 0,
     };
 
     const counts = (appointments.documents as Appointment[]).reduce((acc, appointment) => {
@@ -66,8 +68,8 @@ export const getRecentAppointmentList = async () => {
         case 'pending':
           acc.pendingCount++;
           break;
-        case 'cancelled':
-          acc.cancelledCount++;
+        case 'canceled':
+          acc.canceledCount++;
           break;
       }
       return acc;
@@ -116,7 +118,7 @@ export const sendSMSNotification = async (userId: string, content: string) => {
 //     if (!updatedAppointment) throw Error;
 
 //     const smsMessage = `Greetings from Patient Pulse. ${type === 'schedule' ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!, 
-//     timeZone).dateTime} with Dr. ${appointment.primaryPhysician}` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!, timeZone).dateTime} is cancelled. Reason:  ${appointment.cancellationReason}`}.`;
+//     timeZone).dateTime} with Dr. ${appointment.primaryPhysician}` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!, timeZone).dateTime} is canceled. Reason:  ${appointment.cancellationReason}`}.`;
 //     await sendSMSNotification(userId, smsMessage);
 
 //     revalidatePath('/admin');
