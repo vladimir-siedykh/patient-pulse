@@ -7,26 +7,10 @@ import PendingIcon from '/public/assets/icons/pending.svg';
 import CanceledIcon from '/public/assets/icons/canceled.svg';
 import { getRecentAppointmentList } from '@/lib/actions/appointment.actions';
 import { DataTable } from '@/components/table/DataTable';
-import { columns, Payment } from '@/components/table/columns';
-
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: '728ed52f',
-      amount: 100,
-      status: 'pending',
-      email: 'm@example.com',
-    },
-    // ...
-  ];
-}
+import { columns } from '@/components/table/columns';
 
 const AdminPage = async () => {
   const appointments = await getRecentAppointmentList();
-  console.log(appointments);
-
-  const data = await getData();
 
   return (
     <div className='mx-auto flex max-w-7xl flex-col space-y-14'>
@@ -68,9 +52,7 @@ const AdminPage = async () => {
             icon={CanceledIcon}
           />
         </section>
-
-        {/* <DataTable data={appointments.documents} columns={columns} /> */}
-        <DataTable data={data} columns={columns} />
+        <DataTable data={appointments.documents} columns={columns} />
       </main>
     </div>
   );

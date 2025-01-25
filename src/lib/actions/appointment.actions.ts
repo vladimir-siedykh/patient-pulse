@@ -28,11 +28,9 @@ export const createAppointment = async (appointment: CreateAppointmentParams) =>
 //  GET RECENT APPOINTMENTS
 export const getRecentAppointmentList = async () => {
   try {
-    const appointments = await databases.listDocuments(
-      DATABASE_ID!,
-      APPOINTMENT_COLLECTION_ID!,
-      [Query.orderDesc('$createdAt')]
-    );
+    const appointments = await databases.listDocuments(DATABASE_ID!, APPOINTMENT_COLLECTION_ID!, [
+      Query.orderDesc('$createdAt'),
+    ]);
 
     // const scheduledAppointments = (
     //   appointments.documents as Appointment[]
@@ -99,34 +97,41 @@ export const sendSMSNotification = async (userId: string, content: string) => {
 };
 
 //  UPDATE APPOINTMENT
-// export const updateAppointment = async ({
-//   appointmentId,
-//   userId,
-//   timeZone,
-//   appointment,
-//   type,
-// }: UpdateAppointmentParams) => {
-//   try {
-//     // Update appointment to scheduled -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
-//     const updatedAppointment = await databases.updateDocument(
-//       DATABASE_ID!,
-//       APPOINTMENT_COLLECTION_ID!,
-//       appointmentId,
-//       appointment
-//     );
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+  timeZone,
+}: UpdateAppointmentParams) => {
+  try {
+    // Update appointment to scheduled -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
+    const updatedAppointment = await databases.updateDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      type === 'cancel'
+        ? { status: appointment.status, cancelationReason: appointment.cancelationReason }
+        : {
+            status: appointment.status,
+            primaryPhysician: appointment.primaryPhysician,
+            schedule: appointment.schedule,
+          }
+    );
 
-//     if (!updatedAppointment) throw Error;
+    if (!updatedAppointment) throw Error('Failed to update appointment');
 
-//     const smsMessage = `Greetings from Patient Pulse. ${type === 'schedule' ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!, 
-//     timeZone).dateTime} with Dr. ${appointment.primaryPhysician}` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!, timeZone).dateTime} is canceled. Reason:  ${appointment.cancellationReason}`}.`;
-//     await sendSMSNotification(userId, smsMessage);
+    // Send SMS notification
+    // const smsMessage = `Greetings from Patient Pulse. ${type === 'schedule' ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!,
+    // timeZone).dateTime} with Dr. ${appointment.primaryPhysician}` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!, timeZone).dateTime} is canceled. Reason:  ${appointment.cancelationReason}`}.`;
+    // await sendSMSNotification(userId, smsMessage);
 
-//     revalidatePath('/admin');
-//     return parseStringify(updatedAppointment);
-//   } catch (error) {
-//     console.error('An error occurred while scheduling an appointment:', error);
-//   }
-// };
+    revalidatePath('/admin');
+    return parseStringify(updatedAppointment);
+  } catch (error) {
+    console.error('An error occurred while scheduling an appointment:', error);
+  }
+};
 
 // GET APPOINTMENT
 export const getAppointment = async (appointmentId: string) => {
