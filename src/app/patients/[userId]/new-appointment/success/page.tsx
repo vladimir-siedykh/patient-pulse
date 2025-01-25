@@ -8,6 +8,8 @@ import { formatDateTime } from '@/lib/utils';
 
 import logo from '/public/assets/icons/logo.svg';
 
+import * as Sentry from '@sentry/nextjs';
+
 const RequestSuccessPage = async ({
   searchParams,
   params,
@@ -20,6 +22,8 @@ const RequestSuccessPage = async ({
 
   const appointment = await getAppointment(appointmentId || '');
   const doctor = Doctors.find((doctor) => doctor.name === appointment.primaryPhysician);
+
+  Sentry.metrics.set('user_view_success', appointment.patientId);
 
   return (
     <div className='flex h-screen max-h-screen px-[5%]'>

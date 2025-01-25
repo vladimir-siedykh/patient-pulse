@@ -43,3 +43,8 @@ next-env.d.ts
 
 .cursorrules
 SECURITY_UPDATES.md
+# Sentry Config File
+.env.sentry-build-plugin
+
+# Cursor IDE
+.cursor/
