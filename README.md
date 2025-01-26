@@ -1,10 +1,18 @@
 # Patient Pulse - Modern Healthcare Management System
 
-![Patient Pulse Dashboard](./public/assets/images/dashboard-cover.png)
-
 Patient Pulse is a modern, user-friendly healthcare management system built with Next.js 15, TypeScript, Tailwind CSS, and Shadcn UI components. It streamlines the patient onboarding process and appointment management, providing a seamless experience for both patients and healthcare providers.
 
-![Patient Onboarding](./public/assets/images/onboarding-cover.png)
+## Screenshots
+
+### Dashboard View
+
+![Dashboard](./public/assets/images/dashboard-cover.png)
+_Comprehensive dashboard for healthcare providers_
+
+### Patient Onboarding
+
+![Onboarding](./public/assets/images/onboarding-cover.png)
+_Streamlined patient registration process_
 
 ## Key Features
 
@@ -48,18 +56,6 @@ src/
 - ♿ Accessibility compliance
 - 🔄 Server-side rendering
 - 📱 Mobile-first approach
-
-## Screenshots
-
-### Dashboard View
-
-![Dashboard](./public/assets/images/dashboard-cover.png)
-_Comprehensive dashboard for healthcare providers_
-
-### Patient Onboarding
-
-![Onboarding](./public/assets/images/onboarding-cover.png)
-_Streamlined patient registration process_
 
 ---
 
