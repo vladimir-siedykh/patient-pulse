@@ -4,13 +4,9 @@ import mainImg from '/public/assets/images/register-img.png';
 import RegisterForm from '@/components/forms/RegisterForm';
 import { getUser } from '@/lib/actions/patient.actions';
 
-import * as Sentry from '@sentry/nextjs';
-
 const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = await params;
   const user = await getUser(userId);
-
-  Sentry.metrics.set('user_view_register', user.name);
 
   return (
     <div className='flex h-screen max-h-screen'>
@@ -27,7 +23,11 @@ const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='max-w-[300px] h-full object-cover' />
+      <Image
+        src={mainImg}
+        alt='Patient Pulse'
+        className='hidden h-full w-1/4 object-cover lg:block'
+      />
     </div>
   );
 };

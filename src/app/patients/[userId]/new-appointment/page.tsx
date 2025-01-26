@@ -4,13 +4,9 @@ import Image from 'next/image';
 import mainImg from '/public/assets/images/appointment-img.png';
 import logo from '/public/assets/icons/logo.svg';
 
-import * as Sentry from '@sentry/nextjs';
-
 const NewAppointmentPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = await params;
   const patient = await getPatient(userId);
-
-  Sentry.metrics.set('user_view_new-appointment', patient.name);
 
   return (
     <div className='flex h-screen max-h-screen'>
@@ -21,17 +17,17 @@ const NewAppointmentPage = async ({ params }: { params: Promise<{ userId: string
             <span className='text-2xl font-bold'>Patient Pulse</span>
           </div>
 
-          <AppointmentForm
-            patientId={patient?.$id}
-            userId={userId}
-            type='create'
-          />
+          <AppointmentForm patientId={patient?.$id} userId={userId} type='create' />
 
           <p className='copyright py-12'>© {new Date().getFullYear()} Patient Pulse</p>
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='h-full w-1/4 object-cover' />
+      <Image
+        src={mainImg}
+        alt='Patient Pulse'
+        className='hidden h-full w-1/4 object-cover lg:block'
+      />
     </div>
   );
 };

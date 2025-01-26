@@ -33,7 +33,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='h-full w-1/2 object-cover' />
+      <Image src={mainImg} alt='Patient Pulse' className='hidden h-full w-1/2 object-cover lg:block' />
     </div>
   );
 }
