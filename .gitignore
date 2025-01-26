@@ -43,3 +43,6 @@ next-env.d.ts
 
 .cursorrules
 SECURITY_UPDATES.md
+
+# Cursor IDE
+.cursor/

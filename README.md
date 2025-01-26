@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Patient Pulse - Modern Healthcare Management System
 
-## Getting Started
+![Patient Pulse Dashboard](./public/assets/images/dashboard-cover.png)
 
-First, run the development server:
+Patient Pulse is a modern, user-friendly healthcare management system built with Next.js 15, TypeScript, Tailwind CSS, and Shadcn UI components. It streamlines the patient onboarding process and appointment management, providing a seamless experience for both patients and healthcare providers.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+![Patient Onboarding](./public/assets/images/onboarding-cover.png)
+
+## Key Features
+
+### For Patients
+
+- 🏥 Easy appointment scheduling
+- 📝 Streamlined registration process
+- 📅 Appointment management
+- 📱 Responsive design for all devices
+
+### For Healthcare Providers
+
+- 📊 Comprehensive dashboard
+- 👥 Patient management
+- 📅 Appointment tracking
+- 🔒 Secure data handling
+
+## Technical Stack
+
+- **Frontend**: Next.js 15.1, React 19, TypeScript
+- **UI Components**: Shadcn UI
+- **Styling**: Tailwind CSS
+- **Backend**: Appwrite
+- **Form Handling**: React Hook Form, Zod validation
+- **State Management**: React Server Components
+
+## Project Structure
+
+```
+src/
+├── app/             # Next.js 15 App Router
+├── components/      # Reusable UI components
+├── lib/             # Core utilities and helpers
+└── types/           # TypeScript definitions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development Practices
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- ✅ TypeScript for type safety
+- 🎨 Modern, responsive UI design
+- ♿ Accessibility compliance
+- 🔄 Server-side rendering
+- 📱 Mobile-first approach
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Screenshots
 
-## Learn More
+### Dashboard View
 
-To learn more about Next.js, take a look at the following resources:
+![Dashboard](./public/assets/images/dashboard-cover.png)
+_Comprehensive dashboard for healthcare providers_
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Patient Onboarding
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Onboarding](./public/assets/images/onboarding-cover.png)
+_Streamlined patient registration process_
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ using Next.js and TypeScript

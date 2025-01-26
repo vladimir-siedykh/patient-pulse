@@ -40,22 +40,22 @@ export const getRecentAppointmentList = async () => {
     //   appointments.documents as Appointment[]
     // ).filter((appointment) => appointment.status === "pending");
 
-    // const cancelledAppointments = (
+    // const canceledAppointments = (
     //   appointments.documents as Appointment[]
-    // ).filter((appointment) => appointment.status === "cancelled");
+    // ).filter((appointment) => appointment.status === "canceled");
 
     // const data = {
     //   totalCount: appointments.total,
     //   scheduledCount: scheduledAppointments.length,
     //   pendingCount: pendingAppointments.length,
-    //   cancelledCount: cancelledAppointments.length,
+    //   canceledCount: canceledAppointments.length,
     //   documents: appointments.documents,
     // };
 
     const initialCounts = {
       scheduledCount: 0,
       pendingCount: 0,
-      cancelledCount: 0,
+      canceledCount: 0,
     };
 
     const counts = (appointments.documents as Appointment[]).reduce((acc, appointment) => {
@@ -66,8 +66,8 @@ export const getRecentAppointmentList = async () => {
         case 'pending':
           acc.pendingCount++;
           break;
-        case 'cancelled':
-          acc.cancelledCount++;
+        case 'canceled':
+          acc.canceledCount++;
           break;
       }
       return acc;
@@ -97,34 +97,46 @@ export const sendSMSNotification = async (userId: string, content: string) => {
 };
 
 //  UPDATE APPOINTMENT
-// export const updateAppointment = async ({
-//   appointmentId,
-//   userId,
-//   timeZone,
-//   appointment,
-//   type,
-// }: UpdateAppointmentParams) => {
-//   try {
-//     // Update appointment to scheduled -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
-//     const updatedAppointment = await databases.updateDocument(
-//       DATABASE_ID!,
-//       APPOINTMENT_COLLECTION_ID!,
-//       appointmentId,
-//       appointment
-//     );
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+  timeZone,
+}: UpdateAppointmentParams) => {
+  try {
+    // Update appointment to scheduled -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
+    const updatedAppointment = await databases.updateDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      type === 'cancel'
+        ? { status: appointment.status, cancelationReason: appointment.cancelationReason }
+        : {
+            status: appointment.status,
+            primaryPhysician: appointment.primaryPhysician,
+            schedule: appointment.schedule,
+          }
+    );
 
-//     if (!updatedAppointment) throw Error;
+    if (!updatedAppointment) throw Error('Failed to update appointment');
 
-//     const smsMessage = `Greetings from Patient Pulse. ${type === 'schedule' ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!, 
-//     timeZone).dateTime} with Dr. ${appointment.primaryPhysician}` : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!, timeZone).dateTime} is cancelled. Reason:  ${appointment.cancellationReason}`}.`;
-//     await sendSMSNotification(userId, smsMessage);
+    // Send SMS notification
+    const smsMessage = `
+      Greetings from Patient Pulse. 
+      ${type === 'schedule' 
+        ? `Your appointment is confirmed for ${formatDateTime(appointment.schedule!).dateTime} with Dr. ${appointment.primaryPhysician}`
+        : `We regret to inform that your appointment for ${formatDateTime(appointment.schedule!).dateTime} is canceled. Reason:  ${appointment.cancelationReason}`
+      }.`;
 
-//     revalidatePath('/admin');
-//     return parseStringify(updatedAppointment);
-//   } catch (error) {
-//     console.error('An error occurred while scheduling an appointment:', error);
-//   }
-// };
+    await sendSMSNotification(userId, smsMessage);
+
+    revalidatePath('/admin');
+    return parseStringify(updatedAppointment);
+  } catch (error) {
+    console.error('An error occurred while scheduling an appointment:', error);
+  }
+};
 
 // GET APPOINTMENT
 export const getAppointment = async (appointmentId: string) => {

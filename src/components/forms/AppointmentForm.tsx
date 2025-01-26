@@ -3,13 +3,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { SelectItem } from '@/components/ui/select';
 import { Doctors } from '@/constants';
-import { createAppointment } from '@/lib/actions/appointment.actions';
+import { createAppointment, updateAppointment } from '@/lib/actions/appointment.actions';
 import { getAppointmentSchema } from '@/lib/validation';
 import { Appointment } from '@/types/appwrite.types';
 
@@ -23,7 +23,7 @@ import { FormFieldType } from './PatientForm';
 export const AppointmentForm = ({
   userId,
   patientId,
-  type = 'create',
+  type,
   appointment,
   setOpen,
 }: {
@@ -31,7 +31,7 @@ export const AppointmentForm = ({
   patientId: string;
   type: 'create' | 'schedule' | 'cancel';
   appointment?: Appointment;
-  setOpen?: Dispatch<SetStateAction<boolean>>;
+  setOpen?: (open: boolean) => void;
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,8 +44,8 @@ export const AppointmentForm = ({
       primaryPhysician: appointment ? appointment?.primaryPhysician : '',
       schedule: appointment ? new Date(appointment?.schedule!) : new Date(Date.now()),
       reason: appointment ? appointment.reason : '',
-      note: appointment?.note || '',
-      cancellationReason: appointment?.cancellationReason || '',
+      note: appointment ? appointment?.note : '',
+      cancelationReason: appointment?.cancelationReason || '',
     },
   });
 
@@ -58,7 +58,7 @@ export const AppointmentForm = ({
         status = 'scheduled';
         break;
       case 'cancel':
-        status = 'cancelled';
+        status = 'canceled';
         break;
       default:
         status = 'pending';
@@ -84,29 +84,29 @@ export const AppointmentForm = ({
             `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
         }
+      } else {
+        console.log('update');
+
+        const appointmentToUpdate = {
+          userId,
+          appointmentId: appointment?.$id!,
+          appointment: {
+            primaryPhysician: values.primaryPhysician,
+            schedule: new Date(values.schedule),
+            status: status as Status,
+            cancelationReason: values.cancelationReason,
+          },
+          type,
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        };
+
+        const updatedAppointment = await updateAppointment(appointmentToUpdate);
+
+        if (updatedAppointment) {
+          setOpen && setOpen(false);
+          form.reset();
+        }
       }
-
-      // else {
-      //   const appointmentToUpdate = {
-      //     userId,
-      //     appointmentId: appointment?.$id!,
-      //     appointment: {
-      //       primaryPhysician: values.primaryPhysician,
-      //       schedule: new Date(values.schedule),
-      //       status: status as Status,
-      //       cancellationReason: values.cancellationReason,
-      //     },
-      //     type,
-      //     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      //   };
-
-      //   const updatedAppointment = await updateAppointment(appointmentToUpdate);
-
-      //   if (updatedAppointment) {
-      //     setOpen && setOpen(false);
-      //     form.reset();
-      //   }
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -201,7 +201,7 @@ export const AppointmentForm = ({
           <CustomFormField
             fieldType={FormFieldType.TEXTAREA}
             control={form.control}
-            name='cancellationReason'
+            name='cancelationReason'
             label='Reason for cancellation'
             placeholder='Urgent meeting came up'
           />

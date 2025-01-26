@@ -23,7 +23,11 @@ const RegistrationPage = async ({ params }: { params: Promise<{ userId: string }
         </div>
       </section>
 
-      <Image src={mainImg} alt='Patient Pulse' className='max-w-1/4 h-full object-cover' />
+      <Image
+        src={mainImg}
+        alt='Patient Pulse'
+        className='hidden h-full w-1/4 object-cover lg:block'
+      />
     </div>
   );
 };
